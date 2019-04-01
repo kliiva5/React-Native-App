@@ -33,4 +33,4 @@ now, because of previous encounters)
 * [Node Package Manager - NPM](https://www.npmjs.com/) (v 6.4.1)
 * [Firebase Realtime Database](https://firebase.google.com/)
 
-**NOTE** NO additional packages were installed with npm during the completion of this assignment, since there was no need.
+**NOTE!** NO additional packages were installed with npm during the completion of this assignment, since there was no need.

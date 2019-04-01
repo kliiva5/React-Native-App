@@ -7,7 +7,7 @@
  */
 
 import React, {Component} from 'react';
-import { Platform, StyleSheet, Text, View, FlatList } from 'react-native';
+import { Platform, StyleSheet, Text, View, FlatList, Button } from 'react-native';
 import FetchTodo from './components/FetchTodo';
 import NewTodo from './components/NewTodo';
 
@@ -31,7 +31,6 @@ export default class App extends Component<Props> {
     this.setState({
       description: description
     });
-    console.log(this.state.description);
   }
   
   showNewTodoForm = () => {
@@ -48,14 +47,15 @@ export default class App extends Component<Props> {
       })
     })
     .then(res => {
-      console.log(res);
       this.setState({
-        description: ''
+        description: '',
+        addTodoVisible: false,
       });
     })
     .catch(err => {
       this.setState({
-        description: ''
+        description: '',
+        addTodoVisible: false
       });
     });
   }
@@ -75,7 +75,6 @@ export default class App extends Component<Props> {
     fetch('https://react-native-3483f.firebaseio.com/todos.json')
      .then(res => res.json())
      .then(parsedResponse => {
-       console.log(parsedResponse);
        const todos = [];
        for (const key in parsedResponse) {
          todos.push({
@@ -83,7 +82,6 @@ export default class App extends Component<Props> {
            id: key
          });
        }
-       console.log(todos);
        this.setState({
          userTodos: todos
        });
@@ -94,13 +92,20 @@ export default class App extends Component<Props> {
   render() {
     return (
       <View style={styles.container}>
-        <FetchTodo getTodos={this.getUserTodosHandler} />
         <NewTodo
          isVisible={this.state.addTodoVisible}
          description={this.state.description}
          handleDescriptionChange={this.handleDescriptionChange}
          handleNewTodoCreation={this.createNewTodo}
         />
+        <View style={this.state.addTodoVisible ? {display: 'none'} : {display: 'flex', margin: 10} }>
+          {
+            this.state.userTodos.map( todo => <Text style={{textDecorationLine: 'underline', margin: 10, fontSize: 20}}>{todo.description}</Text>)
+          }
+          <FetchTodo getTodos={this.getUserTodosHandler} />
+          <Button title="Create a new todo" onPress={this.showNewTodoForm} />
+          <Button color="red" title="Delete all my todos" onPress={this.deleteUserTodosHandler} />
+        </View>
       </View>
     );
   }

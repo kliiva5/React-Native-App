@@ -3,7 +3,7 @@ import { Button, TextInput, View } from 'react-native';
 
 const NewTodo = props => {
     return (
-        <View style={props.isVisible}>
+        <View style={props.isVisible ? { display: 'flex', margin: 10 } : { display: 'none' }}>
             <TextInput 
                 placeholder={"Enter a description"}
                 style={{ margin: 10, width: 200, borderColor: 'black', borderWidth: 1}}
